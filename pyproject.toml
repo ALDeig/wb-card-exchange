@@ -1,17 +1,16 @@
 [tool.poetry]
-name = "aiogram3-template"
+name = "wb-card-exchange"
 version = "0.1.0"
 description = ""
-authors = ["aldi <alkin.denis@gmail.com>"]
+authors = ["aldeig <alkin.denis@gmail.com>"]
 readme = "README.md"
-packages = [{include = "aiogram3-template"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-python-dotenv = "^0.21.0"
-SQLAlchemy = "^2.0.29"
+python-dotenv = "^1.0.1"
+SQLAlchemy = "^2.0.30"
 alembic = "^1.13.1"
-aiogram = "^3.4.1"
+aiogram = "^3.6.0"
 pydantic-settings = "^2.2.1"
 
 
