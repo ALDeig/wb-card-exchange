@@ -3,6 +3,7 @@ from typing import Generic, Sequence, TypeVar
 
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.dialects.sqlite import insert
 
 from app.src.services.db.base import Base
 
@@ -35,6 +36,31 @@ class BaseDao(Generic[TypeModel]):
         await self._session.commit()
         return model_instanse
 
+    async def insert_or_update(
+        self, index_element: str, update_fields: set[str], **data
+    ):
+        query = (
+            insert(self.model)
+            .values(**data)
+            .on_conflict_do_update(
+                index_elements=[index_element],
+                set_={
+                    key: data["key"] for key in update_fields if key in update_fields
+                },
+            )
+        )
+        await self._session.execute(query)
+        await self._session.commit()
+
+    async def insert_or_nothing(self, index_element: str, **data):
+        query = (
+            insert(self.model)
+            .values(**data)
+            .on_conflict_do_nothing(index_elements=[index_element])
+        )
+        await self._session.execute(query)
+        await self._session.commit()
+
     async def update(self, update_fields: dict, **filter_by) -> None:
         query = sa.update(self.model).values(**update_fields).filter_by(**filter_by)
         await self._session.execute(query)
@@ -44,4 +70,3 @@ class BaseDao(Generic[TypeModel]):
         query = sa.delete(self.model).filter_by(**filter_by)
         await self._session.execute(query)
         await self._session.commit()
-
