@@ -19,7 +19,9 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+if settings.SQLITE_DSN is None:
+    raise ValueError("SQLITE_DSN not set")
+config.set_main_option("sqlalchemy.url", settings.SQLITE_DSN)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
