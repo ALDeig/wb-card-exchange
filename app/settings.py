@@ -9,19 +9,8 @@ class Settings(BaseSettings):
     TELEGRAM_TOKEN: str
     ADMINS: list[int]
     LOG_LEVEL: str
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_HOST: str
-    POSTGRES_DB: str
-    POSTGRES_PORT: int
+    CHANNEL_ID: int
     SQLITE_DSN: str | None = None
-
-    @property
-    def DATABASE_URL(self) -> str:
-        return (
-            f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
-            f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
-        )
 
 
 settings = Settings()  # type: ignore
@@ -48,7 +37,6 @@ LOGGING_CONFIG = {
             "maxBytes": 1024 * 1024,
             "backupCount": 3
         },
-
     },
     "loggers": {
         "root": {
