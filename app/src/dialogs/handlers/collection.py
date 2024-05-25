@@ -148,6 +148,6 @@ async def get_contact(msg: Message, bot: Bot, state: FSMContext, db: AsyncSessio
     data = await state.update_data(contacts=msg.text)
     data = Card(**data)
     photo, text, channel_id = await prepare_post(db, data)
-    await msg.answer_photo(photo, caption=text)
+    await msg.answer(texts.END_MESSAGE)
     await bot.send_photo(channel_id, photo, caption=text)
     await state.clear()
