@@ -9,3 +9,9 @@ kb_yes_no = InlineKeyboardMarkup(
         ]
     ]
 )
+
+kb_new_lot = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text="Разместить следующий лот", callback_data="new_lot")]
+    ]
+)
