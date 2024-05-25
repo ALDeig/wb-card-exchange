@@ -45,7 +45,7 @@ class BaseDao(Generic[TypeModel]):
             .on_conflict_do_update(
                 index_elements=[index_element],
                 set_={
-                    key: data["key"] for key in update_fields if key in update_fields
+                    key: data[key] for key in update_fields if key in update_fields
                 },
             )
         )
