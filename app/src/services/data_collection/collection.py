@@ -59,9 +59,9 @@ async def check_posting_avalible(session: AsyncSession, scu: int) -> bool:
 
 
 def check_telegram_nick(text: str | None) -> bool:
-    if text is None:
+    if text is None or text.startswith("@"):
         return False
-    for char in text:
+    for char in text[1:]:
         if char not in [*ascii_letters, *digits, "_"]:
             return False
     return True
