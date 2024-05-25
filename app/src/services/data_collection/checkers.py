@@ -8,12 +8,17 @@ from app.src.services.data_collection.collection import DAYS
 from app.src.services.data_collection.texts import DIGITS_ERROR
 from app.src.services.db.dao.card_dao import CardDao
 
+CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+
 
 async def check_digit_message(msg: Message) -> int | None:
-    if msg.text is None or not msg.text.replace(" ", "").isdigit():
+    text = (msg.text or "").replace(" ", "")
+    try:
+        number = int(text)
+    except ValueError:
         await msg.answer(DIGITS_ERROR)
         return
-    return int(msg.text)
+    return number
 
 
 async def check_float_message(msg: Message) -> float | None:
@@ -34,7 +39,7 @@ async def check_posting_avalible(session: AsyncSession, scu: int) -> bool:
 
 
 def check_telegram_nick(text: str | None) -> bool:
-    if text is None or text.startswith("@"):
+    if text is None or not text.startswith("@"):
         return False
     for char in text[1:]:
         if char not in [*ascii_letters, *digits, "_"]:
@@ -43,9 +48,9 @@ def check_telegram_nick(text: str | None) -> bool:
 
 
 def check_category(text: str) -> bool:
-    if text is None or text.startswith("#"):
+    if text is None or not text.startswith("#"):
         return False
     for char in text[1:]:
-        if char not in [*ascii_letters, *digits, "_"]:
+        if char not in [*ascii_letters, *digits, *CYRILLIC_SYMBOLS, "_"]:
             return False
     return True

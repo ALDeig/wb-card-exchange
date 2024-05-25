@@ -7,6 +7,7 @@ from app.src.dialogs.keyboards.collection import kb_yes_no
 from app.src.dialogs.states import PostDetailsState
 from app.src.services.data_collection import texts
 from app.src.services.data_collection.checkers import (
+    check_category,
     check_digit_message,
     check_float_message,
     check_telegram_nick,
@@ -17,8 +18,11 @@ from app.src.services.wb.url import check_url
 router = Router()
 
 
-@router.message(PostDetailsState.category)
-async def get_category(msg: Message, state: FSMContext):
+@router.message(PostDetailsState.category, F.text.as_("text"))
+async def get_category(msg: Message, text: str, state: FSMContext):
+    if not check_category(text):
+        await msg.answer(texts.CATEGORY)
+        return
     await state.update_data(category=msg.text)
     await msg.answer(texts.LINK)
     await state.set_state(PostDetailsState.link)
@@ -144,5 +148,6 @@ async def get_contact(msg: Message, bot: Bot, state: FSMContext, db: AsyncSessio
     data = await state.update_data(contacts=msg.text)
     data = Card(**data)
     photo, text, channel_id = await prepare_post(db, data)
+    await msg.answer_photo(photo, caption=text)
     await bot.send_photo(channel_id, photo, caption=text)
     await state.clear()
