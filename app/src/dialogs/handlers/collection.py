@@ -6,13 +6,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.src.dialogs.keyboards.collection import kb_yes_no
 from app.src.dialogs.states import PostDetailsState
 from app.src.services.data_collection import texts
-from app.src.services.data_collection.collection import (
-    Card,
+from app.src.services.data_collection.checkers import (
     check_digit_message,
     check_float_message,
     check_telegram_nick,
-    prepare_post,
 )
+from app.src.services.data_collection.collection import Card, prepare_post
 from app.src.services.wb.url import check_url
 
 router = Router()
