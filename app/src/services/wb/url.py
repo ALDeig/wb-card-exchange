@@ -1,6 +1,6 @@
 import re
 
-PATTERN = re.compile(r"https://www.wildberries.ru/catalog/\d+/detail.aspx")
+PATTERN = re.compile(r"https://(www.|)wildberries.ru/catalog/\d+/detail.aspx")
 
 
 def check_url(url: str) -> bool:
@@ -13,4 +13,3 @@ def get_article(url: str) -> int:
     url_without_params = url.split("?")[0]
     digits = re.findall(r"\d+", url_without_params)
     return digits[0]
-
