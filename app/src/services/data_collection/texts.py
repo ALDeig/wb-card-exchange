@@ -5,16 +5,16 @@ if TYPE_CHECKING:
 DIGITS_ERROR = "Введите информацию цифрами"
 
 CATEGORY = "Впишите категорию товара через #, например #блузки. Если два слова то через нижнее подчеркивание #мужские_рубашки"
-LINK = "Ссылка на товар:"
+LINK = "Ссылка на карточку:"
 LINK_ERROR = "Введите ссылку на карточку товара"
 COST = "Впишите цифрами стоимость карточки"
 COST_ERROR = "Введите стоимость цифрами"
 NUMBER_REVIEWS = "Количество отзывов:"
 REVIEW_RATING = "Рейтинг по отзывам:"
 CARD_RETING = "Рейтинг карточки:"
-CART_CONVERSION = "Конверсия в корзину:"
-ORDER_CONVERSION = "Конверсия в заказ:"
-REDEMPTION_PERCENTAGE = "Процент выкупа:"
+CART_CONVERSION = "Конверсия в корзину, %:"
+ORDER_CONVERSION = "Конверсия в заказ, %:"
+REDEMPTION_PERCENTAGE = "Процент выкупа, %:"
 SLIDES = "Слайды с исходниками:"
 SEO = "SEO оптимизация:"
 REVENUE = "Выручка за последние 3 месяца:"
@@ -29,14 +29,14 @@ END_MESSAGE = "Ваш лот размещён на @stockcardwb. По вопро
 def create_post_text(data: "Card") -> str:
     text = f"""
 <b>Категория:</b> {data.category}
-<b>Ссылка на товар:</b> {data.link}
+<b>Ссылка на карточку:</b> {data.link}
 <b>Стоимость¸ руб.:</b> {data.cost}
 <b>Количество отзывов:</b> {data.number_reviews}
 <b>Рейтинг по отзывам:</b> {data.review_rating}
 <b>Рейтинг карточки:</b> {data.card_reting}
-<b>Конверсия в корзину:</b> {data.cart_conversion}
-<b>Конверсия в заказ:</b> {data.order_conversion}
-<b>Процент выкупа:</b> {data.redemption_percentage}
+<b>Конверсия в корзину, %:</b> {data.cart_conversion}
+<b>Конверсия в заказ, %:</b> {data.order_conversion}
+<b>Процент выкупа, %:</b> {data.redemption_percentage}
 <b>Слайды с исходниками:</b> {data.slides}
 <b>SEO оптимизация:</b> {data.seo}
 <b>Выручка за последние 3 месяца:</b> {data.revenue}
