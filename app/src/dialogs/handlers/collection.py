@@ -49,7 +49,6 @@ async def get_link(msg: Message, state: FSMContext):
 async def get_cost(msg: Message, state: FSMContext):
     cost = await check_digit_message(msg)
     if cost is not None:
-    # if cost := await check_digit_message(msg):
         await state.update_data(cost=cost)
         await state.set_state(PostDetailsState.number_reviews)
         await msg.answer(texts.NUMBER_REVIEWS)
@@ -59,7 +58,6 @@ async def get_cost(msg: Message, state: FSMContext):
 async def get_number_reviews(msg: Message, state: FSMContext):
     reviews = await check_digit_message(msg)
     if reviews is not None:
-    # if reviews := await check_digit_message(msg):
         await state.update_data(number_reviews=reviews)
         await state.set_state(PostDetailsState.review_rating)
         await msg.answer(texts.REVIEW_RATING)
@@ -69,7 +67,6 @@ async def get_number_reviews(msg: Message, state: FSMContext):
 async def get_review_rating(msg: Message, state: FSMContext):
     data = await check_float_message(msg)
     if data is not None:
-    # if data := await check_float_message(msg):
         await state.update_data(review_rating=data)
         await state.set_state(PostDetailsState.card_reting)
         await msg.answer(texts.CARD_RETING)
@@ -79,7 +76,6 @@ async def get_review_rating(msg: Message, state: FSMContext):
 async def get_card_reting(msg: Message, state: FSMContext):
     data = await check_float_message(msg)
     if data is not None:
-    # if data := await check_float_message(msg):
         await state.update_data(card_reting=data)
         await state.set_state(PostDetailsState.cart_conversion)
         await msg.answer(texts.CART_CONVERSION)
@@ -89,7 +85,6 @@ async def get_card_reting(msg: Message, state: FSMContext):
 async def get_cart_conversion(msg: Message, state: FSMContext):
     data = await check_float_message(msg)
     if data is not None:
-    # if data := await check_float_message(msg):
         await state.update_data(cart_conversion=data)
         await state.set_state(PostDetailsState.order_conversion)
         await msg.answer(texts.ORDER_CONVERSION)
@@ -99,7 +94,6 @@ async def get_cart_conversion(msg: Message, state: FSMContext):
 async def get_order_conversion(msg: Message, state: FSMContext):
     data = await check_float_message(msg)
     if data is not None:
-    # if data := await check_float_message(msg):
         await state.update_data(order_conversion=data)
         await state.set_state(PostDetailsState.redemption_percentage)
         await msg.answer(texts.REDEMPTION_PERCENTAGE)
@@ -109,7 +103,6 @@ async def get_order_conversion(msg: Message, state: FSMContext):
 async def get_redemption_percentage(msg: Message, state: FSMContext):
     data = await check_float_message(msg)
     if data is not None:
-    # if data := await check_float_message(msg):
         await state.update_data(redemption_percentage=data)
         await state.set_state(PostDetailsState.slides)
         await msg.answer(texts.SLIDES, reply_markup=kb_yes_no)
@@ -135,7 +128,6 @@ async def get_seo(call: CallbackQuery, msg: Message, state: FSMContext):
 async def get_revenue(msg: Message, state: FSMContext):
     data = await check_digit_message(msg)
     if data is not None:
-    # if data := await check_digit_message(msg):
         await state.update_data(revenue=data)
         await state.set_state(PostDetailsState.inventory_balances)
         await msg.answer(texts.INVENTORY_BALANCES)
@@ -145,7 +137,6 @@ async def get_revenue(msg: Message, state: FSMContext):
 async def get_inventory_balances(msg: Message, state: FSMContext):
     data = await check_digit_message(msg)
     if data is not None:
-    # if data := await check_digit_message(msg):
         await state.update_data(inventory_balances=data)
         await state.set_state(PostDetailsState.card_transfer_functionality)
         await msg.answer(texts.CARD_TRANSFER_FUNCTIONALITY, reply_markup=kb_yes_no)
