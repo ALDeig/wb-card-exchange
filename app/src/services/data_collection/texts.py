@@ -31,6 +31,7 @@ def create_post_text(data: "Card") -> str:
     text = f"""
 <b>Категория:</b> {data.category}
 <b>Ссылка на карточку:</b> {data.link}
+<b>Наименование товара:</b> {data.name}
 <b>Стоимость¸ руб.:</b> {data.cost}
 <b>Количество отзывов:</b> {data.number_reviews}
 <b>Рейтинг по отзывам:</b> {data.review_rating}

@@ -7,20 +7,22 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.src.services.data_collection.texts import DIGITS_ERROR
 from app.src.services.db.dao.card_dao import CardDao
 from app.src.services.exceptions import NotValidateUrl, PostingNotAvailable
+from app.src.services.wb.parser import get_card_name
 from app.src.services.wb.url import check_url, get_article
 
 CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 DAYS = 3
 
 
-async def check_url_and_limit(db: AsyncSession, url: str) -> int:
+async def get_data_by_link(db: AsyncSession, url: str) -> tuple[int, str]:
     is_valid = check_url(url)
     if not is_valid:
         raise NotValidateUrl
     scu = get_article(url)
     if not await _check_posting_available(db, scu):
         raise PostingNotAvailable
-    return scu
+    name = await get_card_name(scu)
+    return scu, name
 
 
 async def check_digit_message(msg: Message) -> int | None:

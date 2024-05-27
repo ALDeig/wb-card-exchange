@@ -14,6 +14,7 @@ from app.src.services.wb.photo import get_photo_url
 class Card:
     category: str
     link: str
+    name: str
     scu: int
     cost: int
     number_reviews: int
@@ -28,25 +29,6 @@ class Card:
     inventory_balances: int
     card_transfer_functionality: str
     contacts: str
-
-
-# card = Card(
-#     category="#adsfdf",
-#     link="https://www.wildberries.ru/catalog/150320604/detail.aspx",
-#     cost=123,
-#     number_reviews=2,
-#     review_rating=3,
-#     card_reting=3,
-#     cart_conversion=3,
-#     order_conversion=3,
-#     redemption_percentage=3,
-#     slides="Да",
-#     seo="Да",
-#     revenue=3,
-#     inventory_balances=3,
-#     card_transfer_functionality="Нет",
-#     contacts="aldeig"
-# )
 
 
 async def prepare_post(session: AsyncSession, card: Card) -> tuple[str, str, int]:
