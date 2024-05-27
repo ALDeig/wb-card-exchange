@@ -11,9 +11,10 @@ from app.src.services.data_collection.checkers import (
     check_digit_message,
     check_float_message,
     check_telegram_nick,
+    check_url_and_limit,
 )
 from app.src.services.data_collection.collection import Card, prepare_post
-from app.src.services.wb.url import check_url
+from app.src.services.exceptions import NotValidateUrl, PostingNotAvailable
 
 router = Router()
 
@@ -35,12 +36,17 @@ async def get_category(msg: Message, text: str, state: FSMContext):
     await state.set_state(PostDetailsState.link)
 
 
-@router.message(PostDetailsState.link)
-async def get_link(msg: Message, state: FSMContext):
-    if not check_url(msg.text or ""):
+@router.message(PostDetailsState.link, flags={"db": True})
+async def get_link(msg: Message, state: FSMContext, db: AsyncSession):
+    try:
+        scu = await check_url_and_limit(db, msg.text or "")
+    except NotValidateUrl:
         await msg.answer(texts.LINK_ERROR)
         return
-    await state.update_data(link=msg.text)
+    except PostingNotAvailable:
+        await msg.answer(texts.LIMIT_ERROR)
+        return
+    await state.update_data(link=msg.text, scu=scu)
     await msg.answer(texts.COST)
     await state.set_state(PostDetailsState.cost)
 

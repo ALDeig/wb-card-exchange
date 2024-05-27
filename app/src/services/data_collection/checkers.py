@@ -4,11 +4,23 @@ from string import ascii_letters, digits
 from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.src.services.data_collection.collection import DAYS
 from app.src.services.data_collection.texts import DIGITS_ERROR
 from app.src.services.db.dao.card_dao import CardDao
+from app.src.services.exceptions import NotValidateUrl, PostingNotAvailable
+from app.src.services.wb.url import check_url, get_article
 
 CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+DAYS = 3
+
+
+async def check_url_and_limit(db: AsyncSession, url: str) -> int:
+    is_valid = check_url(url)
+    if not is_valid:
+        raise NotValidateUrl
+    scu = get_article(url)
+    if not await _check_posting_available(db, scu):
+        raise PostingNotAvailable
+    return scu
 
 
 async def check_digit_message(msg: Message) -> int | None:
@@ -31,11 +43,9 @@ async def check_float_message(msg: Message) -> float | None:
     return data
 
 
-async def check_posting_avalible(session: AsyncSession, scu: int) -> bool:
+async def _check_posting_available(session: AsyncSession, scu: int) -> bool:
     card = await CardDao(session).find_one_or_none(scu=scu)
-    if card is None or card.last_posting_date < date.today() - timedelta(DAYS):
-        return True
-    return False
+    return card is None or card.last_posting_date <= date.today() - timedelta(DAYS)
 
 
 def check_telegram_nick(text: str | None) -> bool:
