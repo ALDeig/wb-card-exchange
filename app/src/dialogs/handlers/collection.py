@@ -42,13 +42,13 @@ async def get_link(msg: Message, state: FSMContext, db: AsyncSession):
         scu, name = await get_data_by_link(db, msg.text or "")
     except NotValidateUrl:
         await msg.answer(texts.LINK_ERROR)
-        return
     except PostingNotAvailable:
-        await msg.answer(texts.LIMIT_ERROR)
-        return
-    await state.update_data(link=msg.text, scu=scu, name=name)
-    await msg.answer(texts.COST)
-    await state.set_state(PostDetailsState.cost)
+        await state.clear()
+        await msg.answer(texts.LIMIT_ERROR, reply_markup=kb_new_lot)
+    else:
+        await state.update_data(link=msg.text, scu=scu, name=name)
+        await msg.answer(texts.COST)
+        await state.set_state(PostDetailsState.cost)
 
 
 @router.message(PostDetailsState.cost)
