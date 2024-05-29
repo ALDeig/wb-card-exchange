@@ -18,7 +18,7 @@ class User(Base):
     full_name: Mapped[str]
     username: Mapped[str | None] = mapped_column(Text, nullable=True, default=None)
     last_active: Mapped[date] = mapped_column(
-        Date, init=False, default_factory=utc_date
+        Date, default=utc_date
     )
 
 
