@@ -15,13 +15,17 @@ from app.src.services.data_collection.checkers import (
 )
 from app.src.services.data_collection.collection import Card, prepare_post
 from app.src.services.exceptions import NotValidateUrl, PostingNotAvailable
+from app.src.services.user import update_last_active
 
 router = Router()
 
 
-@router.callback_query(F.data == "new_lot", F.message.as_("msg"))
-async def btn_new_log(call: CallbackQuery, msg: Message, state: FSMContext):
+@router.callback_query(F.data == "new_lot", F.message.as_("msg"), flags={"db": True})
+async def btn_new_log(
+    call: CallbackQuery, msg: Message, db: AsyncSession, state: FSMContext
+):
     await call.answer()
+    await update_last_active(db, call.from_user.id)
     await msg.answer(texts.CATEGORY)
     await state.set_state(PostDetailsState.category)
 

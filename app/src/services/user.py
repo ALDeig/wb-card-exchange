@@ -1,7 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.src.services.db.dao.user_dao import UserDao
+from app.src.services.date_utils import utc_date
 from app.src.services.db.dao.service_message_dao import ServiceMessageDao
+from app.src.services.db.dao.user_dao import UserDao
 
 
 async def save_user(
@@ -17,3 +18,7 @@ async def get_start_text(session: AsyncSession) -> str:
     if text is None:
         return "Приветствие"
     return text.value
+
+
+async def update_last_active(session: AsyncSession, user_id: int) -> None:
+    await UserDao(session).update({"last_active": utc_date()}, id=user_id)

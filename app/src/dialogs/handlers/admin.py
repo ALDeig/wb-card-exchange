@@ -5,7 +5,7 @@ from aiogram.types import Message
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.src.services.admin.admin import (
-    get_amount_users,
+    get_count_users,
     mailing,
     update_service_message,
 )
@@ -66,6 +66,12 @@ async def get_mailing_message(msg: Message, db: AsyncSession, state: FSMContext)
 # Количество пользователей
 @router.message(Command("user_amount"), flags={"db": True})
 async def cmd_user_amount(msg: Message, db: AsyncSession):
-    text = await get_amount_users(db)
+    text = await get_count_users(db, is_active=False)
     await msg.answer(text)
 
+
+@router.message(Command("user_active_count"), flags={"db": True})
+async def cmd_user_active_count(msg: Message, db: AsyncSession):
+    """Количество активных пользователей."""
+    text = await get_count_users(db, is_active=True)
+    await msg.answer(text)
