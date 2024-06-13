@@ -4,11 +4,12 @@ from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass
 from app.settings import settings
 
 
-class Base(AsyncAttrs, MappedAsDataclass, DeclarativeBase):
+class Base(AsyncAttrs, MappedAsDataclass, DeclarativeBase):  # noqa: D101
     pass
 
 
 if not settings.SQLITE_DSN:
-    raise ValueError("SQLITE_DSN not set")
+    err_message = "SQLITE_DSN not set"
+    raise ValueError(err_message)
 engine = create_async_engine(settings.SQLITE_DSN)
 session_factory = async_sessionmaker(engine, expire_on_commit=False)

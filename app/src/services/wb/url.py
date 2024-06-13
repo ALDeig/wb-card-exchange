@@ -4,29 +4,29 @@ PATTERN = re.compile(r"https://(www.|)wildberries.ru/catalog/\d+/detail.aspx")
 
 
 def check_url(url: str) -> bool:
+    """Проверяет соответствует ли переданный url, возможному url WB."""
     match = re.match(PATTERN, url)
     return match is not None
 
 
 def get_article(url: str) -> int:
-    """Из url достается артикул и приводится к int"""
+    """Из url достается артикул и приводится к int."""
     url_without_params = url.split("?")[0]
     digits = re.findall(r"\d+", url_without_params)
     return digits[0]
 
 
 def get_base_url_with_parts(scu: str) -> str:
-    url = (
+    return (
         f"https://{_get_basket_url(int(scu[:-5]))}.wb.ru/"
         f"vol{scu[:-5]}/"
         f"part{scu[:-3]}/"
         f"{scu}"
     )
-    return url
 
 
 def _get_basket_url(val: int) -> str:
-    """Возвращает версию basket для загрузки фотографии"""
+    """Возвращает версию basket для загрузки фотографии."""
     baskets = {
         (0, 144): "01",
         (144, 288): "02",
