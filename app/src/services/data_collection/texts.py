@@ -31,9 +31,10 @@ LIMIT_ERROR = "Размещение лота на одну и ту же карт
 END_MESSAGE = (
     "Ваш лот размещён на @stockcardwb. По вопросам работы сервиса пишите @seohandmade"
 )
+DEFAULT_CAPTION = "📌Для размещения лота перейдите в бот @stockcardwb_bot"
 
 
-def create_post_text(data: "Card") -> str:
+def create_post_text(data: "Card", caption: str | None) -> str:
     text = f"""
 <b>Категория:</b> {data.category}
 <b>Ссылка на карточку:</b> {data.link}
@@ -52,6 +53,6 @@ def create_post_text(data: "Card") -> str:
 <b>Функционал передачи карточки:</b> {data.card_transfer_functionality}
 <b>Контакты:</b> {data.contacts}
 
-📌Для размещения лота перейдите в бот @stockcardwb_bot
+{caption or DEFAULT_CAPTION}
 """
     return text.strip()

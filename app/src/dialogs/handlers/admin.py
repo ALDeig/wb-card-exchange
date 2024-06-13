@@ -11,7 +11,7 @@ from app.src.services.admin.admin import (
 )
 from app.src.services.admin.texts import (
     CMD_MAILING,
-    # CMD_SET_CAPTION_TEXT,
+    CMD_SET_CAPTION_TEXT,
     CMD_SET_START_TEXT,
     MAILING_END,
     MAILING_START,
@@ -35,17 +35,17 @@ async def get_start_text(msg: Message, db: AsyncSession, state: FSMContext):
 
 
 # Установка текста для подписи
-# @router.message(Command("set_caption_text"))
-# async def cmd_set_caption_text(msg: Message, state: FSMContext):
-#     await msg.answer(CMD_SET_CAPTION_TEXT)
-#     await state.set_state("get_caption_text")
+@router.message(Command("set_caption_text"))
+async def cmd_set_caption_text(msg: Message, state: FSMContext):
+    await msg.answer(CMD_SET_CAPTION_TEXT)
+    await state.set_state("get_caption_text")
 
 
-# @router.message(StateFilter("get_caption_text"), flags={"db": True})
-# async def get_caption_text(msg: Message, db: AsyncSession, state: FSMContext):
-#     await state.clear()
-#     text = await update_service_message(db, "caption", msg.html_text)
-#     await msg.answer(text)
+@router.message(StateFilter("get_caption_text"), flags={"db": True})
+async def get_caption_text(msg: Message, db: AsyncSession, state: FSMContext):
+    await state.clear()
+    text = await update_service_message(db, "caption", msg.html_text)
+    await msg.answer(text)
 
 
 # Рассылка пользователям
