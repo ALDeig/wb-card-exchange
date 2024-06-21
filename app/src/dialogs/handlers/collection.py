@@ -162,6 +162,16 @@ async def get_card_transfer_functionality(
     await state.update_data(
         card_transfer_functionality="Да" if call.data == "yes" else "Нет"
     )
+    await state.set_state(PostDetailsState.supplier_contacts)
+    await msg.answer(texts.SUPPLIER_CONTACTS)
+
+
+@router.callback_query(PostDetailsState.supplier_contacts, F.message.as_("msg"))
+async def supplier_contacts(call: CallbackQuery, msg: Message, state: FSMContext):
+    await call.answer()
+    await state.update_data(
+        supplier_contacts="Да" if call.data == "yes" else "Нет"
+    )
     await state.set_state(PostDetailsState.contacts)
     await msg.answer(texts.CONTACTS)
 

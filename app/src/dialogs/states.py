@@ -16,5 +16,6 @@ class PostDetailsState(StatesGroup):
     revenue = State()  # Выручка за последние 3 месяца
     inventory_balances = State()  # Товарные остатки
     card_transfer_functionality = State()
+    supplier_contacts = State()
     contacts = State()
 

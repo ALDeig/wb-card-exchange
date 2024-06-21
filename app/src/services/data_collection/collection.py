@@ -31,6 +31,7 @@ class Card:
     revenue: int
     inventory_balances: int
     card_transfer_functionality: str
+    supplier_contacts: str
     contacts: str
 
 

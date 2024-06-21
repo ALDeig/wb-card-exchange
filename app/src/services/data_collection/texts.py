@@ -24,6 +24,7 @@ SEO = "SEO оптимизация:"
 REVENUE = "Выручка за последние 3 месяца:"
 INVENTORY_BALANCES = "Товарные остатки¸ шт."
 CARD_TRANSFER_FUNCTIONALITY = "Функционал передачи карточки"
+SUPPLIER_CONTACTS = "Контакты поставщика"
 CONTACTS = "Впишите свой ник в Телеграмм"
 CONTACTS_ERROR = "Введите ник Телеграмм"
 
@@ -51,6 +52,7 @@ def create_post_text(data: "Card", caption: str | None) -> str:
 <b>Выручка за последние 3 месяца:</b> {data.revenue}
 <b>Товарные остатки¸ шт.:</b> {data.inventory_balances}
 <b>Функционал передачи карточки:</b> {data.card_transfer_functionality}
+<b>Контакты поставщика: </b> {data.supplier_contacts}
 <b>Контакты:</b> {data.contacts}
 
 {caption or DEFAULT_CAPTION}
